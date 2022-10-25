@@ -1,0 +1,70 @@
+class Solution {
+
+    enum Color{
+        white, gray, black;
+    }
+
+    private List<Color> color = new ArrayList<>();
+    private List<Integer> sTime = new ArrayList<>();
+    private List<Integer> fTime = new ArrayList<>();
+    private int d = -1;
+
+    private int comp = 0;
+    private int totalEdges = 0;
+    private int visitedEdges = 0;
+    
+    private void dfs(int n, List<List<Integer>> adjList){
+        d = -1;
+        for(int i=0 ; i<n ; i++){
+            if( color.get(i) == Color.white ){
+                comp++;
+                dfs_visit(i, adjList);
+            }
+        }
+    }
+
+    private void dfs_visit(int u, List<List<Integer>> adjList){
+        d++;
+        sTime.set(u, d);
+        color.set(u, Color.gray);
+        for(int v : adjList.get(u)){
+            if( color.get(v) == Color.white ){
+                visitedEdges++;
+                dfs_visit(v, adjList);
+            } 
+        }
+        color.set(u, Color.black);
+        d++;
+        fTime.set(u, d);
+    }
+
+    public int makeConnected(int n, int[][] connections) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        for(int i=0 ; i<n ; i++){
+            color.add( Color.white );
+            adjList.add( new ArrayList<>() );
+            sTime.add(-1);
+            fTime.add(-1);
+        }
+        int u,v;
+        for(int i=0 ; i<connections.length ; i++){
+            u = connections[i][0];
+            v = connections[i][1];
+            adjList.get(u).add(v);
+            adjList.get(v).add(u);
+            totalEdges++;
+        }
+
+        dfs(n, adjList);
+
+        System.out.println("comp : " + comp);
+        System.out.println("totalEdges : " + totalEdges);
+        System.out.println("visitedEdges : " + visitedEdges);
+
+        if( totalEdges - visitedEdges >= comp - 1 ){
+            return comp - 1;
+        }
+
+        return -1;
+    }
+}
