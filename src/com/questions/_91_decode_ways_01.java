@@ -1,3 +1,9 @@
+/*
+    O(n) time
+    Runtime - 11ms
+    Memory - 46MB
+*/
+
 class Solution {
 
     private HashMap<Integer, Integer> map = new HashMap<>();
