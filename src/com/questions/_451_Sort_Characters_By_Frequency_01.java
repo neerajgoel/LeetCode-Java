@@ -24,6 +24,8 @@ public class _451_Sort_Characters_By_Frequency_01 {
                 }
             });
 
+            Collections.sort(list, (o1, o2) -> -1 * (o1.getValue() - o2.getValue()));
+
             StringBuilder sb = new StringBuilder();
             int x;
             for(Map.Entry<Character, Integer> entry : list){
